@@ -36,7 +36,9 @@ phishing_urls = [
 legit_urls = [
     "https://www.google.com",
     "https://www.bankofamerica.com",
-    "https://www.github.com"
+    "https://www.github.com",
+    "https://www.amazon.com",
+    "https://www.instagram.com"
 
 ]
 

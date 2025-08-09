@@ -3,22 +3,26 @@ import pandas as pd
 from feature_extractor import extract_features
 
 # Load the trained model
-model = joblib.load("backend/phishing_model.pkl")
+model = joblib.load('phishing_model.pkl')
 
-# Example URL to test
-url = "http://paypal-login.com"
+# URL to test
+url = "http://192.168.0.1/login"
 
-# Extract features from the URL
+# Extract features (returns a dictionary of numerical features)
 features = extract_features(url)
 
-# Convert features to DataFrame
-X_test = pd.DataFrame([features])
+# These must match the order used during model training
+feature_names = ['url_length', 'has_at', 'has_dash', 'has_https', 'digit_count', 'has_ip']
+
+# Convert to DataFrame in correct order
+input_data = pd.DataFrame([[features[feature] for feature in feature_names]], columns=feature_names)
 
 # Make prediction
-prediction = model.predict(X_test)
+prediction = model.predict(input_data)
 
-# Display result
+
+# Output result
 if prediction[0] == 1:
-    print("⚠️ Phishing URL detected!")
+    print("⚠️  This is a phishing URL.")
 else:
-    print("✅ Legitimate URL.")
+    print("✅  This is a legitimate URL.")

@@ -1,0 +1,15 @@
+url_length,has_at,has_dash,has_https,digit_count,has_ip,label
+23,False,True,False,0,False,1
+33,True,True,True,0,False,1
+24,False,False,False,8,True,1
+33,False,True,False,0,False,1
+30,False,True,False,0,False,1
+27,False,False,True,0,False,1
+43,True,True,True,0,False,1
+27,False,True,False,1,False,1
+47,True,True,True,0,False,1
+22,False,False,True,0,False,0
+29,False,False,True,0,False,0
+22,False,False,True,0,False,0
+22,False,False,True,0,False,0
+25,False,False,True,0,False,0
