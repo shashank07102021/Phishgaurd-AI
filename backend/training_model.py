@@ -8,7 +8,7 @@ import joblib
 df = pd.read_csv('phishing_dataset.csv')  # Your dataset with 'url' column
 
 # Define only the feature columns to use
-features = ['url_length', 'has_at', 'has_dash', 'has_https', 'digit_count', 'has_ip']
+features = ['url_length', 'has_at', 'has_dash', 'has_https', 'digit_count', 'has_ip','is_shortened','suspicious_tld','url_entropy','count_subdomains','contains_keywords']
 X = df[features]  # ✅ Only include the features (not 'url')
 y = df['label']
 
