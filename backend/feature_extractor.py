@@ -18,7 +18,7 @@ def is_shortened(url):
 
 # Detect suspicious TLD
 def suspicious_tld(url):
-    suspicious_tlds = ["tk", "ga", "ml", "cf", "gq", "xyz", "top", "club"]
+    suspicious_tlds = ["tk", "ga", "ml", "cf", "gq", "xyz", "top", "club","fun"]
     domain = urlparse(url).netloc.lower()
     return any(domain.endswith("." + tld) for tld in suspicious_tlds)
 
@@ -65,6 +65,20 @@ phishing_urls = [
     "https://secure-login.amazon.com@fakepage.ru",
     "http://ver1fy-your-bank.com",
     "https://secure-google-login.com@phishingsite.ru"
+    "https://barberiabdventerpra.fun/",
+    "http://doc-en-start-trazor.free.site.pro",
+    "https://doc-en-start-trazor.free.site.pro/",
+    "http://paypal-login-update.com/secure",
+    "http://account-verification.paypai.com/login",
+    "https://secure-login-verify.bankofamerica.com.session-id-2732.com",
+    "http://update-info.appleid.apple.com.verify-login.co",
+    "http://secure-ebay-login.com/account/update",
+    "https://dropbox-filesharing.com/login",
+    "http://verify-account-facebook.com/security",
+    "http://login.microsoftonline.com.verify-account.info",
+    "http://bankofamerica.com.account-verify.co",
+    "https://amazon-login-security-check.com/auth",
+    "https://barberiabdventerpra.fun/"
     ]
 
 legit_urls = [
@@ -82,8 +96,8 @@ data = []
 # Label phishing URLs as 1
 for url in phishing_urls:
    features = extract_features(url)
-features['label'] = 1  # phishing
-data.append(features)
+   features['label'] = 1  # phishing
+   data.append(features)
 
 # Label legit URLs as 0
 for url in legit_urls:

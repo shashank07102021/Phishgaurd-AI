@@ -1,7 +1,0 @@
-url_length,has_at,has_dash,has_https,digit_count,has_ip,is_shortened,suspicious_tld,url_entropy,count_subdomains,contains_keywords,label
-47,True,True,True,0,False,False,False,4.118210660096213,2,True,1
-22,False,False,True,0,False,False,False,3.6635327548042547,2,False,0
-29,False,False,True,0,False,False,False,4.1162646156680225,2,True,0
-22,False,False,True,0,False,False,False,3.7544418457133455,2,False,0
-22,False,False,True,0,False,False,False,3.6978458230844122,2,False,0
-25,False,False,True,0,False,False,False,3.863465189601647,2,False,0

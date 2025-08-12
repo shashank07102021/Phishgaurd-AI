@@ -19,7 +19,7 @@ def is_shortened(url):
 
 # Detect suspicious TLD
 def suspicious_tld(url):
-    suspicious_tlds = ["tk", "ga", "ml", "cf", "gq", "xyz", "top", "club"]
+    suspicious_tlds = ["tk", "ga", "ml", "cf", "gq", "xyz", "top", "club","Fun"]
     domain = urlparse(url).netloc.lower()
     return any(domain.endswith("." + tld) for tld in suspicious_tlds)
 
