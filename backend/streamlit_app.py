@@ -4,6 +4,7 @@ import re
 import math
 from collections import Counter
 from urllib.parse import urlparse
+from utils.emailer import send_email_alert
 # Load model
 model = joblib.load('phishing_model.pkl')
 
@@ -66,8 +67,14 @@ if st.button("Predict"):
     if url:
         features = extract_features(url)
         prediction = model.predict([features])[0]
-        result = "🛑 Phishing URL" if prediction == 1 else "✅ Legitimate URL"
+        probs = model.predict_proba([features])[0]  # [legit_prob, phishing_prob]
+        confidence = max(probs) * 100
+
+        result = "🚨 Phishing URL" if prediction == 1 else "✅ Legitimate URL"
         st.markdown(f"### Prediction: {result}")
+        st.write(f"**Confidence:** {confidence:.2f}%")
+        st.write(f"Legitimate Probability: {probs[0]*100:.2f}%")
+        st.write(f"Phishing Probability: {probs[1]*100:.2f}%")
     else:
         st.warning("⚠️ Please enter a URL first.")
 
