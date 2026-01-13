@@ -79,6 +79,7 @@ phishing_urls = [
     "http://bankofamerica.com.account-verify.co",
     "https://amazon-login-security-check.com/auth",
     "https://barberiabdventerpra.fun/"
+    "https://bluehotdog.hi81111.com/"
     ]
 
 legit_urls = [

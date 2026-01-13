@@ -20,7 +20,7 @@ url_length,has_at,has_dash,has_https,digit_count,has_ip,is_shortened,suspicious_
 52,False,True,False,0,False,False,False,4.130715623805702,4,True,1
 42,False,True,False,0,False,False,False,4.175188482808195,3,True,1
 44,False,True,True,0,False,False,False,4.282739857027813,1,True,1
-63,False,False,True,5,False,False,True,4.357611669256936,1,False,1
+32,False,False,True,0,False,False,True,3.8820488277869583,1,False,1
 22,False,False,True,0,False,False,False,3.6635327548042547,2,False,0
 29,False,False,True,0,False,False,False,4.1162646156680225,2,True,0
 22,False,False,True,0,False,False,False,3.7544418457133455,2,False,0

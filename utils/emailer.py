@@ -43,6 +43,6 @@ def send_email_alert(subject,html_body,text_body=None,to=None):
     
 
 if __name__=="__main__":
-    ok=send_email_alert(subject="Phishgaurd Test Alert ",text_body="this is a plain text test",html_body="<h3>PhishGaurd AI Test</h3><p>This email confirms alerts work </p>")
+    ok=send_email_alert(subject="Phishgaurd Alert : Suspicious URL Detected ",text_body="this is a plain text test",html_body="<h3>PhishGaurd AI Test</h3><p>This email confirms alerts work </p>")
     print("Email Sent Status",ok)
 
