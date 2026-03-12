@@ -1,115 +1,53 @@
-import csv
-import re
-import pandas as pd
+import re 
+import json 
 from urllib.parse import urlparse
-import math
-from collections import Counter
-# Function to check if the URL has an IP address
 
-# Feature extraction function
-def has_ip(url):
-    ip_pattern = r'((\d{1,3}\.){3}\d{1,3})'
-    return bool(re.search(ip_pattern, url))
+with open ("D:/Phishgaurd AI/core/features.json", "r") as f :
+    FEATURES=json.load(f)
 
-# Detect shortened URLs
-def is_shortened(url):
-    shortened_domains = ["bit.ly", "tinyurl.com", "goo.gl", "t.co", "ow.ly", "buff.ly", "adf.ly"]
-    return any(short in url for short in shortened_domains)
-
-# Detect suspicious TLD
-def suspicious_tld(url):
-    suspicious_tlds = ["tk", "ga", "ml", "cf", "gq", "xyz", "top", "club","fun"]
-    domain = urlparse(url).netloc.lower()
-    return any(domain.endswith("." + tld) for tld in suspicious_tlds)
-
-# Calculate URL entropy
-def url_entropy(url):
-    probs = [freq / len(url) for freq in Counter(url).values()]
-    return -sum(p * math.log2(p) for p in probs)
-
-# Count subdomains
-def count_subdomains(url):
-    domain = urlparse(url).netloc
-    return domain.count(".")
-
-# Detect phishing keywords
-def contains_keywords(url):
-    keywords = ["login", "verify", "secure", "account", "update", "free", "win", "bank"]
-    return any(keyword in url.lower() for keyword in keywords)
-
-
-# Function to extract features from a URL
 def extract_features(url):
-    return {
-        'url_length': len(url),
-        'has_at': '@' in url,
-        'has_dash': '-' in url,
-        'has_https': 'https' in url,
-        'digit_count': sum(char.isdigit() for char in url),
-        'has_ip': has_ip(url),
-        'is_shortened': is_shortened(url),
-        'suspicious_tld': suspicious_tld(url),
-        'url_entropy': url_entropy(url),
-        'count_subdomains': count_subdomains(url),
-        'contains_keywords': contains_keywords(url)
-    }
-
-# List of phishing and legitimate URLs
-phishing_urls = [
-    "http://paypal-login.com",
-    "https://secure-google.com@fake.ru",
-    "http://192.168.0.1/login",
-    "http://verify-update-security.com",
-    "http://paypal-update-login.com",
-    "https://accounts.google.com",
-    "https://secure-login.amazon.com@fakepage.ru",
-    "http://ver1fy-your-bank.com",
-    "https://secure-google-login.com@phishingsite.ru"
-    "https://barberiabdventerpra.fun/",
-    "http://doc-en-start-trazor.free.site.pro",
-    "https://doc-en-start-trazor.free.site.pro/",
-    "http://paypal-login-update.com/secure",
-    "http://account-verification.paypai.com/login",
-    "https://secure-login-verify.bankofamerica.com.session-id-2732.com",
-    "http://update-info.appleid.apple.com.verify-login.co",
-    "http://secure-ebay-login.com/account/update",
-    "https://dropbox-filesharing.com/login",
-    "http://verify-account-facebook.com/security",
-    "http://login.microsoftonline.com.verify-account.info",
-    "http://bankofamerica.com.account-verify.co",
-    "https://amazon-login-security-check.com/auth",
-    "https://barberiabdventerpra.fun/"
-    "https://bluehotdog.hi81111.com/"
-    ]
-
-legit_urls = [
-    "https://www.google.com",
-    "https://www.bankofamerica.com",
-    "https://www.github.com",
-    "https://www.amazon.com",
-    "https://www.instagram.com"
-
-]
-
-# Prepare dataset
-data = []
-
-# Label phishing URLs as 1
-for url in phishing_urls:
-   features = extract_features(url)
-   features['label'] = 1  # phishing
-   data.append(features)
-
-# Label legit URLs as 0
-for url in legit_urls:
-    features = extract_features(url)
-    features['label'] = 0
-    data.append(features)
-
-# Write to CSV file
-with open('phishing_dataset.csv', mode='w', newline='') as file:
-    writer = csv.DictWriter(file, fieldnames=data[0].keys())
-    writer.writeheader()
-    writer.writerows(data)
-
-print("Dataset saved successfully as phishing_dataset.csv")
+    parsed=urlparse(url)
+    hostname=parsed.hostname or""
+    path=parsed.path or ""
+     
+    def count (char):
+       return url.count(char)
+    
+    features ={
+        'length_url':len(url),
+        'length_hostname':len(hostname),
+        'ip': 1 if re.match(r'\d+\.\d+\.\d+\.\d+',hostname) else 0,
+        'nb_dots':count('.'),
+        'nb_hyphens':count('-'),
+        'nb_at':count('@'),
+        'nb_qm':count('?'),
+        'nb_and':count('&'),
+        'nb_dots':count('.'), 
+        'nb_or':count('|'),
+        'nb_eq':count('='),
+        'nb_underscore':count('_'),
+        'nb_tilde':count('~'),
+        'nb_percent':count('%'),
+        'nb_slash':count('/'),
+        'nb_star':count('*'),
+        'nb_colon':count(':'),
+        'nb_comma':count(','),''
+        'nb_semicolumn':count(';'),
+        'nb_dollar':count('$'),
+        'nb_space':count(' '),
+        'nb_www':1 if'www'in url else 0,
+        'nb_com':url.count('.com'),
+        'nb_dslash':url.count('//'),
+        'https_token':1 if parsed.scheme =='https' else 0 ,
+        'ratio_digits_url': sum(c.isdigit() for c in url)/ len(url) if len(url)>0 else 0,
+        'ratio_digits_host':sum(c.isdigit() for c in hostname) / len(hostname) if len(hostname)>0  else 0 ,
+        'punycode':1 if 'xn--' in url else 0 ,
+        'port': 1 if parsed.port else 0 ,
+        'tld_in_path':1 if re.search(r'\.(com|org|net|gov|edu)',path) else 0,
+        'tld_in_subdomain':1 if re.search(r'\.(com|org|net|gov|edu)',path) else 0,
+        'nb_subdomains':hostname.count('.'),
+        'shortening_service':1 if any (s in url  for s in ['bit.ly','tinyurl','goo.gl,t.co']) else 0,
+        'path_extension':1 if re.search(r'\.\w{2,4}$',path)else 0
+          }
+    return[features[f] for f in FEATURES]
+    
